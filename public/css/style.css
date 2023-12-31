@@ -1,0 +1,27 @@
+.login-container {
+    width: 800px;
+    margin-top: 50px;
+    text-align: center;
+    /* border: 2px solid red; */
+}
+
+.login-main {
+    width: 90%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid black; */
+}
+
+.divider {
+    background-color: #91bbdb
+}
+
+#header {
+    background-color: #91bbdb;
+}
+
+.primary {
+    background-color: #e3f3fb;
+}

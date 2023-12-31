@@ -1,0 +1,40 @@
+<h3>Add Product</h3>
+<div class="row">
+    <form action="/stories" method="POST" class="col s12">
+        <div class="row">
+            <div class="input-field">
+                <input type="text" id="title" name="title">
+                <label for="title">Product Name</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field">
+                <select id="status" name="status">
+                    <option value="public" selected>No</option>
+                    <option value="private">Yes</option>
+                </select>
+                <label for="status">Liquid?</label>
+            </div>
+        </div>
+
+         <div class="row">
+            <div class="input-field">
+                <input type="text" id="price" name="price">
+                <label for="price">Price</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field">
+                <input type="text" id="plu" name="plu">
+                <label for="plu">PLU No.</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <input type="submit" value="Save" class="btn">
+            <a href="/dashboard" class="btn orange">Cancel</a>
+        </div>
+    </form>
+</div>
