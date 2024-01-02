@@ -2,16 +2,11 @@ const mongoose = require('mongoose');
 
 const batchSchema = new mongoose.Schema({
     product: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
+        type: String,
         required: true,
     },
     quantity: {
         type: Number,
-        required: true,
-    },
-    dateMade: {
-        type: Date,
         required: true,
     },
     datePacked: {
@@ -20,15 +15,9 @@ const batchSchema = new mongoose.Schema({
     },
     quartsMade: {
         type: Number,
-        required: function () {
-            return this.isLiquid;
-        },
     },
     pintsMade: {
         type: Number,
-        required: function () {
-            return this.isLiquid;
-        },
     },
     body: {
         type: String,
@@ -36,14 +25,25 @@ const batchSchema = new mongoose.Schema({
     relabeled: {
         type: Date,
     },
-}, {
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+    }, 
 });
 
-// Virtual field to get the isLiquid value from the referenced product
-batchSchema.virtual('isLiquid').get(function () {
-    return this.product.isLiquid;
+
+// Pre-save middleware
+batchSchema.pre('save', function(next) {
+    // If the product is liquid, set qty of qts made and pts made and set overall qty to sum of both
+    if (this.quartsMade || this.pintsMade) {
+        this.quantity = this.quartsMade + this.pintsMade;  
+    } else {
+        // If the product is not liquid, set liquid specific values to null
+        this.pintsMade = null;
+        this.quartsMade = null;
+    }
+    next();
 });
 
 const Batch = mongoose.model('Batch', batchSchema);

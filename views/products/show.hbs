@@ -17,24 +17,34 @@
             <tr>
                 <td>{{productName}}</a></td>
                 <td>{{isLiquid}}</td>
-                <td><span class="dash-status">${{price}}.00</span></td>
-                <td><span class="dash-status">{{pluNumber}}</span></td>
+                {{#if isLiquid}}
+                    <td>
+                        <span class="dash-status">${{pricePerQuart}}.00 (Per Pint)<br>${{pricePerPint}}.00 (Per Quart)</span>
+                    </td>
+                    <td>
+                        <span class="dash-status">{{pluNumberPerQuart}} (Quart)<br>{{pluNumberPerPint}} (Pint)</span>
+                    </td>
+                {{else}}
+                    <td>
+                        <span class="dash-status">${{price}}.00</span>
+                    </td>
+                    <td>
+                        <span class="dash-status">{{pluNumber}}</span>
+                    </td>
+                {{/if}}
                 <td>
-                    <a href="/products/edit/{{productName}}" class="btn btn-float">
+                    <a href="/products/edit/{{_id}}" class="btn btn-float">
                         <i class="fas fa-edit"></i>
                     </a>
-
-                    <form action="/product/{{productName}}" method="POST" id="delete-form">
+                    <form action="/products/{{_id}}" method="POST" id="delete-form">
                         <input type="hidden" name="_method" value="DELETE" >
                         <button class="btn red" type="submit"><i class="fas fa-trash"></i></button>
                     </form>
-
                 </td>
             </tr>
             {{/each}}
         </tbody>
     </table>
-
 {{else}}
     <p>You have not created any products yet.</p>
 {{/if}}

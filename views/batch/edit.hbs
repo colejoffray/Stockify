@@ -1,40 +1,36 @@
 <h3>Add a New Batch</h3>
 <div class="row">
-    <form action="/batch" method="POST" class="col s12">
+    <form action="/batch/edit/{{batch._id}}" method="POST" class="col s12">
+     <input type="hidden" name="_method" value="PUT">
 
         <div class="row">
             <div class="input-field">
-                <select id="status" name="product" onchange="toggleFields()">
-                    <option value="" disabled selected>Select a product:</option>
-                    {{#each products}}
-                    <option value="{{productName}}" data-isliquid="{{isLiquid}}">{{productName}}</option>
-                    {{/each}}
-                </select>
+                <input type="text" id="product" name="product" data-pints="{{batch.pintsMade}}" data-quarts="{{batch.quartsMade}}" value="{{batch.product}}" readonly>
                 <label for="product">Product Name</label>
             </div>
         </div>
 
         <div class="row" id="quantityNonLiquid">
             <div class="input-field">
-                <input type="number" id="quantity" name="quantity">
+                <input type="number" id="quantity" name="quantity" value="{{batch.quantity}}">
                 <label for="quantity">Quantity</label>
             </div>
         </div>
 
          <div class="row" id="liquidFields" style="display: none;">
             <div class="input-field">
-                <input type="number" id="quartsMade" name="quartsMade">
+                <input type="number" id="quartsMade" name="quartsMade" value="{{batch.quartsMade}}">
                 <label for="quartsMade">Quarts Made</label>
             </div>
             <div class="input-field">
-                <input type="number" id="pintsMade" name="pintsMade">
+                <input type="number" id="pintsMade" name="pintsMade" value="{{batch.pintsMade}}">
                 <label for="pintsMade">Pints Made</label>
             </div>
         </div>
 
         <div class="row">
             <div class="input-field">
-                <input type="date" id="datePacked" name="datePacked">
+                <input type="date" id="datePacked" name="datePacked" value="{{batch.datePacked}}">
                 <label for="datePacked">Date Packed</label>
             </div>
         </div>
@@ -47,13 +43,18 @@
 </div>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function(){
+        toggleFields();
+    })
+
     function toggleFields() {
-        const select = document.getElementById('status');
+        const product = document.getElementById('product');
         const liquidFields = document.getElementById('liquidFields');
-        const isLiquid = select.options[select.selectedIndex].getAttribute('data-isliquid') === 'true';
+        const pints = product.getAttribute('data-pints');
+        const quarts = product.getAttribute('data-quarts')
         const quantityNonLiquid = document.getElementById('quantityNonLiquid');
 
-        if (isLiquid) {
+        if (pints || quarts) {
             liquidFields.style.display = 'block';
             quantityNonLiquid.style.display = 'none'
         } else {

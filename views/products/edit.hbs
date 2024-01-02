@@ -1,0 +1,88 @@
+<h3>Edit Product</h3>
+<div class="row">
+    <form action="/products/{{product._id}}" method="POST" class="col s12">
+    <input type="hidden" name="_method" value="PUT">
+        <div class="row">
+            <div class="input-field">
+                <input type="text" id="productName" name="productName" value="{{product.productName}}">
+                <label for="productName">Product Name</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field">
+                <select id="status" name="isLiquid">
+                    <option value='false' {{#if_eq product.isLiquid false}}selected{{/if_eq}}>No</option>
+                    <option value='true' {{#if_eq product.isLiquid true}}selected{{/if_eq}}>Yes</option>
+                </select>
+                <label for="isLiquid">Liquid?</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field" id="priceField">
+                <input type="number" id="price" name="price" value="{{product.price}}">
+                <label for="price">Price</label>
+            </div>
+        </div>
+
+        <div class="row" id="priceOptions" style="display: none;">
+            <div class="input-field">
+                <input type="number" id="pricePerQuart" name="pricePerQuart" value="{{product.pricePerQuart}}">
+                <label for="pricePerQuart">Price per Quart</label>
+            </div>
+            <div class="input-field">
+                <input type="number" id="pricePerPint" name="pricePerPint" value="{{product.pricePerPint}}">
+                <label for="pricePerPint">Price per Pint</label>
+            </div>
+        </div>
+
+        <div class="row" id="plu">
+            <div class="input-field">
+                <input type="text" id="plu" name="plu" value="{{product.pluNumber}}">
+                <label for="plu">PLU No.</label>
+            </div>
+        </div>
+
+        <div class="row" id="pluNumbers" style="display: none;">
+            <div class="input-field">
+                <input type="text" id="pluNumberPerQuart" name="pluNumberPerQuart" value="{{product.pluNumberPerQuart}}">
+                <label for="pluNumberPerQuart">Main PLU No. (Quart)</label>
+            </div>
+            <div class="input-field">
+                <input type="text" id="pluNumberPerPint" name="pluNumberPerPint" value="{{product.pluNumberPerPint}}">
+                <label for="pluNumberPerPint">Secondary PLU No. (Per Pint)</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <input type="submit" value="Save" class="btn">
+            <a href="/products" class="btn orange">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+        toggleFields();
+    })
+    function toggleFields() {
+        const liquid = document.getElementById('status').value === 'true';
+        const priceField = document.getElementById('priceField');
+        const priceOptions = document.getElementById('priceOptions');
+        const pluNumbers = document.getElementById('pluNumbers');
+        const plu = document.getElementById('plu')
+
+        if (liquid) {
+            priceField.style.display = 'none';
+            plu.style.display = 'none'
+            priceOptions.style.display = 'block';
+            pluNumbers.style.display = 'block';
+        } else {
+            priceField.style.display = 'block';
+            plu.style.display = 'block'
+            priceOptions.style.display = 'none';
+            pluNumbers.style.display = 'none';
+        }
+    }
+</script>

@@ -7,6 +7,7 @@ const exphbs = require('express-handlebars')
 const path = require('path')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')
+const methodOverride = require('method-override')
 const morgan = require('morgan')
 const connectDB = require('./config/db')
 
@@ -22,6 +23,17 @@ connectDB()
 //body parser //!this will let use use req.body
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
+
+//METHOD OVERRIDE 
+app.use(
+    methodOverride(function(req,res) {
+        if(req.body && typeof req.body === 'object' && '_method' in req.body){
+            let method = req.body._method
+            delete req.body._method
+            return method
+        }
+    })
+)
 
 if(process.env.NODE_ENV === 'development'){
     app.use(morgan('dev'))
@@ -41,10 +53,18 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
+//Handlebar Helpers
+const {if_eq, formatDate, hasQuartsOrPints } = require('./helpers/hbs')
+
 //Handlebars
 //!this line of code allows us to not have to worry about using extension names in our router functions
 app.engine('.hbs', exphbs.engine(
-    {    
+    {   
+    helpers: {
+        if_eq,
+        formatDate,
+        hasQuartsOrPints,
+    } ,
     defaultLayout: 'main', 
     extname: '.hbs'
 }))
@@ -70,6 +90,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use('/', (require('./routes/index')))
 app.use('/auth', require('./routes/auth'))
 app.use('/products', require('./routes/products'))
+app.use('/batch', require('./routes/batch'))
+
 
 const PORT = process.env.PORT || 5000
 
