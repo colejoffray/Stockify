@@ -5,6 +5,10 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    isLiquid: {
+        type: Boolean,
+        required: true,
+    },
     price: {
         type: Number,
         required: true,
@@ -13,10 +17,12 @@ const productSchema = new mongoose.Schema({
         type: String,
         unique: true,
     },
-    isLiquid: {
-        type: Boolean,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true,
     },
+    
 });
 
 const Product = mongoose.model('Product', productSchema);

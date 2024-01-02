@@ -1,20 +1,21 @@
 <h3>Add Product</h3>
 <div class="row">
     <form action="/products" method="POST" class="col s12">
+
+        <div class="row">
+            <div class="input-field">
+                <select id="status" name="product">
+                    {{#each products}}
+                    <option value="{{productName}}">{{productName}}</option>
+                    {{/each}}
+                </select>
+                <label for="product">Product Name</label>
+            </div>
+        </div>
         <div class="row">
             <div class="input-field">
                 <input type="text" id="productName" name="productName">
                 <label for="productName">Product Name</label>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="input-field">
-                <select id="status" name="isLiquid">
-                    <option value='false' selected>No</option>
-                    <option value='true'>Yes</option>
-                </select>
-                <label for="isLiquid">Liquid?</label>
             </div>
         </div>
 

@@ -1,3 +1,40 @@
 <h4>Products</h4>
 <div class="divider"></div>
 <p class="lead">Here are your products:</p>
+{{#if products}}
+    <table class="striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Liquid?</th>
+                <th>Price</th>
+                <th>PLU No.</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each products}}
+            <tr>
+                <td>{{productName}}</a></td>
+                <td>{{isLiquid}}</td>
+                <td><span class="dash-status">${{price}}.00</span></td>
+                <td><span class="dash-status">{{pluNumber}}</span></td>
+                <td>
+                    <a href="/products/edit/{{productName}}" class="btn btn-float">
+                        <i class="fas fa-edit"></i>
+                    </a>
+
+                    <form action="/product/{{productName}}" method="POST" id="delete-form">
+                        <input type="hidden" name="_method" value="DELETE" >
+                        <button class="btn red" type="submit"><i class="fas fa-trash"></i></button>
+                    </form>
+
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+{{else}}
+    <p>You have not created any products yet.</p>
+{{/if}}
