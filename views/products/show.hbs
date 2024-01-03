@@ -32,15 +32,18 @@
                         <span class="dash-status">{{pluNumber}}</span>
                     </td>
                 {{/if}}
-                <td>
-                    <a href="/products/edit/{{_id}}" class="btn btn-float">
-                        <i class="fas fa-edit"></i>
+             <td>
+                <div class="flex">
+                    <a href="/products/edit/{{_id}}" class="btn btn-float tooltipped" data-position="top" data-tooltip="Edit Product">
+                            <i class="fas fa-edit"></i>
                     </a>
                     <form action="/products/{{_id}}" method="POST" id="delete-form">
                         <input type="hidden" name="_method" value="DELETE" >
-                        <button class="btn red" type="submit"><i class="fas fa-trash"></i></button>
+                        <button class="btn red tooltipped" data-position="top" data-tooltip="Delete Product" type="submit"><i class="fas fa-trash"></i></button>
                     </form>
-                </td>
+                </div>
+             </td>
+                
             </tr>
             {{/each}}
         </tbody>

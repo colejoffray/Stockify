@@ -4,10 +4,10 @@
 <p class="lead">Here is your inventory:</p>
 
 
-<h4>Batches</h4>
+<h4>Batches (Not Active)</h4>
 <div class="divider"></div>
 {{#if batches}}
-    <table class="striped">
+    <table class="responsive-table striped custom-margin">
         <thead>
             <tr>
                 <th>Product</th>
@@ -20,22 +20,28 @@
             {{#each batches}}
             <tr>
                 <td><a href="/batches/{{_id}}">{{product}}</a></td>
-                <td>{{ formatDate datePacked 'MMMM Do YYYY'}}</td>
+                <td>{{formatDate datePacked 'MMMM Do YYYY'}}</td>
                 {{#hasQuartsOrPints this}}
                 <td>{{quantity}} <br>Qts: {{quartsMade}}<br>Pts:{{pintsMade}}</td>
                 {{else}}
                 <td>{{quantity}}</td>
                 {{/hasQuartsOrPints}}
                 <td>
-                    <a href="/batch/edit/{{_id}}" class="btn btn-float">
-                        <i class="fas fa-edit"></i>
-                    </a>
+                    <div class="flex">
+                        <a href="/batch/edit/{{_id}}" class="btn btn-float btn-small tooltipped" data-position="top" data-tooltip="Edit Batch">
+                            <i class="fas fa-edit"></i>
+                        </a>
 
-                    <form action="/batch/{{_id}}" method="POST" id="delete-form">
-                        <input type="hidden" name="_method" value="DELETE" >
-                        <button class="btn red" type="submit"><i class="fas fa-trash"></i></button>
-                    </form>
+                        <form action="/batch/{{_id}}" method="POST" id="delete-form" class="inline-form tooltipped" data-position="top" data-tooltip="Delete Batch">
+                            <input type="hidden" name="_method" value="DELETE" >
+                            <button class="btn btn-float btn-small red" type="submit"><i class="fa-solid fa-x"></i></button>
+                        </form>
 
+                        <form action="/inventory/add/{{_id}}" method="POST" id="add-form" class="inline-form tooltipped" data-position="top" data-tooltip="Add to inventory">
+                            <button class="btn btn-float btn-small yellow"><i class="fa-solid fa-plus"></i></button>
+                        </form>
+                    </div>
+                    
                 </td>
             </tr>
             {{/each}}
@@ -44,4 +50,55 @@
 
 {{else}}
     <p>You have not created any batches yet.</p>
+{{/if}}
+
+<h4 class="mt4">Inventory (Active)</h4>
+<div class="divider"></div>
+{{#if inventory}}
+    <table class="responsive-table striped custom-margin custom-table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Date Packed</th>
+                <th>Date Displayed</th>
+                <th>Relabeled</th>
+                <th>Quantity</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each inventory}}
+            <tr>
+                <td><a href="/batches/{{_id}}">{{product}}</a></td>
+                <td>{{formatDate datePacked 'MMMM Do YYYY'}}</td>
+                <td>{{formatDate dateInCase 'MMMM Do YYYY'}}</td>
+                {{#if relabeled}}
+                <td>{{formatDate relabeled 'MMMM Do YYYY'}}</td>
+                {{else}}
+                <td>Not relabeled yet</td>
+                {{/if}}
+                {{#hasQuartsOrPints this}}
+                <td>{{quantity}} <br>Qts: {{quartsMade}}<br>Pts:{{pintsMade}}</td>
+                {{else}}
+                <td>{{quantity}}</td>
+                {{/hasQuartsOrPints}}
+                <td>
+                    <div class="flex">
+                        <form action="/batch/{{_id}}" method="POST" id="delete-form">
+                            <input type="hidden" name="_method" value="DELETE" >
+                            <button class="btn btn-float red tooltipped" data-position="top" data-tooltip="Add to Waste Log" type="submit"><i class="fa-solid fa-trash"></i></button>
+                        </form>
+
+                        
+                    <a href="/inventory/{{_id}}" class="btn btn-float yellow tooltipped" data-position="top" data-tooltip="Add a Relabeled Date"><i class="fa-solid fa-calendar-days"></i></a>
+                        
+                    </div>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+{{else}}
+    <p>You have no inventory displayed yet.</p>
 {{/if}}

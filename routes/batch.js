@@ -3,6 +3,9 @@ const router = express.Router()
 const { ensureGuest, ensureAuth } = require('../middleware/auth')
 const Product = require('../models/Product')
 const Batch = require('../models/Batch')
+const moment = require('moment');
+const { rawListeners } = require('../models/User')
+require('moment-timezone');
 
 //@desc render add batch form
 //GET /batch/add
@@ -24,10 +27,15 @@ router.get('/add', async (req, res) => {
 router.post('/', ensureAuth, async(req, res) => {
     try{
         req.body.user = req.user.id
+   
         const batchData = {
             product: req.body.product,
-            datePacked: req.body.datePacked,
             user: req.body.user
+        }
+
+        if(req.body.datePacked){
+            console.log(req.body.datePacked);
+            batchData.datePacked =  new Date(req.body.datePacked);
         }
         if(req.body.quartsMade || req.body.pintsMade){
             if(req.body.quartsMade){
@@ -88,7 +96,16 @@ router.get('/edit/:id', ensureAuth, async(req, res) => {
 
 router.put('/edit/:id', ensureAuth, async (req, res) => {
     try{
-        await Batch.findByIdAndUpdate(req.params.id, req.body)
+        const batchId = req.params.id
+        const updatedBatchData = req.body
+         // Convert the incoming date to UTC
+         updatedBatchData.datePacked = moment.utc(updatedBatchData.datePacked).toDate();
+
+        if(updatedBatchData.pintsMade || updatedBatchData.quartsMade){
+            updatedBatchData.quantity = +updatedBatchData.pintsMade + +updatedBatchData.quartsMade
+        }
+        console.log(updatedBatchData);
+        await Batch.findByIdAndUpdate(batchId, updatedBatchData)
         res.redirect('/dashboard')
     }catch(err){
         console.error(err)

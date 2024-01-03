@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const batchSchema = new mongoose.Schema({
+const inventorySchema = new mongoose.Schema({
     product: {
         type: String,
         required: true,
@@ -10,6 +10,10 @@ const batchSchema = new mongoose.Schema({
         required: true,
     },
     datePacked: {
+        type: Date,
+        default: Date.now,
+    },
+    dateInCase: {
         type: Date,
         default: Date.now,
     },
@@ -34,7 +38,7 @@ const batchSchema = new mongoose.Schema({
 
 
 // Pre-save middleware
-batchSchema.pre('save', function(next) {
+inventorySchema.pre('save', function(next) {
     // If the product is liquid, set qty of qts made and pts made and set overall qty to sum of both
     if (this.quartsMade || this.pintsMade) {
         this.quantity = this.quartsMade + this.pintsMade;  
@@ -46,6 +50,6 @@ batchSchema.pre('save', function(next) {
     next();
 });
 
-const Batch = mongoose.model('Batch', batchSchema);
+const Inventory = mongoose.model('Inventory', inventorySchema);
 
-module.exports = Batch;
+module.exports = Inventory;

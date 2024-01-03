@@ -25,3 +25,23 @@
 .primary {
     background-color: #e3f3fb;
 }
+
+.showBorder {
+    border: 1px solid black;
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    gap: .25rem;
+}
+
+.custom-margin {
+    margin-bottom: 32px;
+    margin-top: 32px;
+}
+
+.custom-table {
+    max-height: 300px !important;
+    overflow-y: auto;
+}

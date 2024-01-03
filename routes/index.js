@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { ensureGuest, ensureAuth } = require('../middleware/auth')
 const Batch = require('../models/Batch')
+const Inventory = require('../models/Inventory')
 
 
 
@@ -18,10 +19,12 @@ router.get('/', ensureGuest, async (req,res) => {
 router.get('/dashboard', ensureAuth, async (req, res) => {
     try{
         id = req.user.id
-        const batches = await Batch.find({user: id}).populate('user').lean()
+        const batches = await Batch.find({user: id}).sort({product: 1}).populate('user').lean()
+        const inventory = await Inventory.find({user: id}).sort({product: 1}).populate('user').lean()
         res.render('dashboard', {
             name: req.user.firstName,
-            batches
+            batches,
+            inventory,
         })
 
     }catch(err){

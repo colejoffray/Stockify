@@ -1,0 +1,21 @@
+<h5>Edit Relabeled Date</h5>
+<div class="divider"></div>
+<div class="row">
+    {{#if inventory}}
+         <form action="/inventory/{{route}}" method="POST" class="col s12">
+            <input type="hidden" name="_method" value="PUT">
+            <div class="row">
+                <div class="input-field">
+                    <input type="date" id="relabeled" name="relabeled" value="{{inventory.relabeled}}">
+                    <label for="relabeled">Relabeled Date</label>
+                </div>
+            </div>
+            <div class="row">
+                <input type="submit" value="Save" class="btn">
+                <a href="/dashboard" class="btn orange">Cancel</a>
+            </div>
+        </form>
+    {{else}}
+    <p class="lead">not working</p>
+    {{/if}}
+</div>

@@ -91,6 +91,7 @@ app.use('/', (require('./routes/index')))
 app.use('/auth', require('./routes/auth'))
 app.use('/products', require('./routes/products'))
 app.use('/batch', require('./routes/batch'))
+app.use('/inventory', require('./routes/inventory'))
 
 
 const PORT = process.env.PORT || 5000
