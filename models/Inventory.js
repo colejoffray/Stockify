@@ -26,7 +26,38 @@ const inventorySchema = new mongoose.Schema({
     body: {
         type: String,
     },
+    isWaste: {
+        type: Boolean,
+        default: false,
+    },
+    itemsLost: {
+        type: Number,
+    },
+    pintsLost: {
+        type: Number,
+    },
+    quartsLost: {
+        type: Number,
+    },
+    itemsSold: {
+        type: Number,
+    },
+    pintsSold: {
+        type: Number,
+    },
+    quartsSold: {
+        type: Number,
+    },
+    profit: {
+        type: Number,
+    },
+    price: {
+        type: Number,
+    },
     relabeled: {
+        type: Date,
+    },
+    wasteDate: {
         type: Date,
     },
     user: {

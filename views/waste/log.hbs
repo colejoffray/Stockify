@@ -1,0 +1,54 @@
+<h4>Waste Log</h4>
+<div class="divider"></div>
+<p class="lead">Here is your total loss:</p>
+{{#if waste}}
+    <table class="striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Waste Date</th>
+                <th>Loss</th>
+                <th>Gain</th>
+                <th>Total Profit</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each waste}}
+            <tr>
+                <td>{{product}}</a></td>
+                <td>{{wasteDate}}</td>
+                {{#if isLiquid}}
+                    <td>
+                        <span class="dash-status">${{pricePerQuart}}.00 (Per Pint)<br>${{pricePerPint}}.00 (Per Quart)</span>
+                    </td>
+                    <td>
+                        <span class="dash-status">{{pluNumberPerQuart}} (Quart)<br>{{pluNumberPerPint}} (Pint)</span>
+                    </td>
+                {{else}}
+                    <td>
+                        <span class="dash-status">${{price}}.00</span>
+                    </td>
+                    <td>
+                        <span class="dash-status">{{profit}}</span>
+                    </td>
+                {{/if}}
+             <td>
+                <div class="flex">
+                    <a href="/products/edit/{{_id}}" class="btn btn-float tooltipped" data-position="top" data-tooltip="Edit Product">
+                            <i class="fas fa-edit"></i>
+                    </a>
+                    <form action="/products/{{_id}}" method="POST" id="delete-form">
+                        <input type="hidden" name="_method" value="DELETE" >
+                        <button class="btn red tooltipped" data-position="top" data-tooltip="Delete Product" type="submit"><i class="fas fa-trash"></i></button>
+                    </form>
+                </div>
+             </td>
+                
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+{{else}}
+    <p>You have not created any products yet.</p>
+{{/if}}

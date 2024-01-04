@@ -19,8 +19,11 @@ router.get('/', ensureGuest, async (req,res) => {
 router.get('/dashboard', ensureAuth, async (req, res) => {
     try{
         id = req.user.id
-        const batches = await Batch.find({user: id}).sort({product: 1}).populate('user').lean()
-        const inventory = await Inventory.find({user: id}).sort({product: 1}).populate('user').lean()
+        const batches = await Batch.find({user: id}).sort({product: 1}).lean()
+        const inventory = await Inventory.find({
+            user: id,
+            isWaste: false,
+        }).sort({product: 1}).lean()
         res.render('dashboard', {
             name: req.user.firstName,
             batches,

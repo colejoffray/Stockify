@@ -53,7 +53,7 @@ router.post('/', ensureAuth, async (req, res) => {
 
     }catch(err){
         console.error(err)
-        res.redirect('dashboard')
+        res.redirect('error/404')
     }
 })
 

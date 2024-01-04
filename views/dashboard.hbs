@@ -20,7 +20,7 @@
             {{#each batches}}
             <tr>
                 <td><a href="/batches/{{_id}}">{{product}}</a></td>
-                <td>{{formatDate datePacked 'MMMM Do YYYY'}}</td>
+                <td>{{formatDate datePacked 'MMMM Do'}}</td>
                 {{#hasQuartsOrPints this}}
                 <td>{{quantity}} <br>Qts: {{quartsMade}}<br>Pts:{{pintsMade}}</td>
                 {{else}}
@@ -69,11 +69,11 @@
         <tbody>
             {{#each inventory}}
             <tr>
-                <td><a href="/batches/{{_id}}">{{product}}</a></td>
-                <td>{{formatDate datePacked 'MMMM Do YYYY'}}</td>
-                <td>{{formatDate dateInCase 'MMMM Do YYYY'}}</td>
+                <td><a href="batches/{{_id}}">{{product}}</a></td>
+                <td>{{formatDate datePacked 'MMMM Do'}}</td>
+                <td>{{formatDate dateInCase 'MMMM Do'}}</td>
                 {{#if relabeled}}
-                <td>{{formatDate relabeled 'MMMM Do YYYY'}}</td>
+                <td>{{formatDate relabeled 'MMMM Do'}}</td>
                 {{else}}
                 <td>Not relabeled yet</td>
                 {{/if}}
@@ -83,21 +83,38 @@
                 <td>{{quantity}}</td>
                 {{/hasQuartsOrPints}}
                 <td>
-                    <div class="flex">
-                        <form action="/batch/{{_id}}" method="POST" id="delete-form">
-                            <input type="hidden" name="_method" value="DELETE" >
-                            <button class="btn btn-float red tooltipped" data-position="top" data-tooltip="Add to Waste Log" type="submit"><i class="fa-solid fa-trash"></i></button>
-                        </form>
+                    <a class="waves-effect waves-light btn modal-trigger" href="#modal1" data-id="{{_id}}"><i class="fa-solid fa-trash"></i></a>
+                    <a href="/inventory/{{_id}}" class="btn btn-float yellow tooltipped" data-position="top" data-tooltip="Add a Relabeled Date"><i class="fa-solid fa-calendar-days"></i></a>     
 
-                        
-                    <a href="/inventory/{{_id}}" class="btn btn-float yellow tooltipped" data-position="top" data-tooltip="Add a Relabeled Date"><i class="fa-solid fa-calendar-days"></i></a>
-                        
-                    </div>
                 </td>
             </tr>
             {{/each}}
         </tbody>
     </table>
+   
+    <div id="modal1" class="modal">
+            <div class="modal-content">
+                <h4>Add an Item to Waste Log</h4>
+                <p>How many items are being discarded?</p>
+                <!-- Form to handle quantity input -->
+                <form id="wasteLogForm" action=""  method="POST">
+                    <input type="hidden" name="_method" value="PUT">
+                    <div class="input-field">
+                        <input type="text" id="wasteName" name="wasteName" readonly>
+                        <label for="wasteName"></label>
+                    </div>
+                    <div class="input-field" id="input-div">
+                        <input type="number" id="quantity" name="quantity">
+                        <label for="quantity" id="quantityLabel">Select Quantity</label>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="/dashboard" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+                        <button class="waves-effect waves-red btn red" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        
+    </div>
 
 {{else}}
     <p>You have no inventory displayed yet.</p>
