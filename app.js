@@ -17,9 +17,6 @@ dotenv.config({ path: './config/.env'})
 //passport config 
 require('./config/passport')(passport)
 
-
-connectDB()
-
 //body parser //!this will let use use req.body
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
@@ -98,10 +95,12 @@ app.use('/waste', require('./routes/waste'))
 
 const PORT = process.env.PORT || 5000
 
-
-app.listen(PORT, () => {
-    console.log(`App running on PORT: ${process.env.PORT} in ${process.env.NODE_ENV} mode`);
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log(`App running on PORT: ${process.env.PORT} in ${process.env.NODE_ENV} mode`);
+    })
 })
+
 
 
 
