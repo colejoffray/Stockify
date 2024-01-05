@@ -91,17 +91,25 @@ router.put('/name/:id', ensureAuth, async (req, res) => {
         const product = await Product.findOne({ productName: newData.wasteName });
         const ref = await Inventory.findOne({ _id: req.params.id})
 
-        console.log(product);
+        console.log(ref)
+
+        console.log(newData);
 
         let updateData;
 
         if (newData.quartsLost || newData.pintsLost) {
             // Calculate pintsSold and quartsSold
+            const pricePerPint = product.pricePerPint;
+            const pricePerQuart = product.pricePerQuart;
             const pintsSold = ref.pintsMade - Number(newData.pintsLost);
             const quartsSold = ref.quartsMade - Number(newData.quartsLost);
             const loss = (Number(newData.quartsLost) * product.pricePerQuart) + (Number(newData.pintsLost) * product.pricePerPint)
-            const gain = (Number(newData.quartsSold) * product.pricePerQuart) + (Number(newData.pintsSold) * product.pricePerPint)
-            const profit = gain - loss
+            // Provide default values (0) if newData.quartsSold or newData.pintsSold is not defined
+            const quartsSoldDefault = quartsSold ? quartsSold : 0;
+            const pintsSoldDefault = pintsSold ? pintsSold : 0;
+            const gain = (Number(quartsSoldDefault) * pricePerQuart) + (Number(pintsSoldDefault) * pricePerPint)
+            console.log(gain);
+            const revenue = gain - loss
 
             updateData = {
                 $set: {
@@ -109,12 +117,14 @@ router.put('/name/:id', ensureAuth, async (req, res) => {
                     pintsLost: Number(newData.pintsLost),
                     quartsLost: Number(newData.quartsLost),
                     price: product.price,
+                    pricePerPint: pricePerPint,
+                    pricePerQuart: pricePerQuart,
                     pintsSold: pintsSold,
                     quartsSold: quartsSold,
                     wasteDate: new Date(),
                     loss: loss,
                     gain: gain,
-                    profit: profit,
+                    revenue: revenue,
                 },
             };
         } else {
@@ -122,7 +132,7 @@ router.put('/name/:id', ensureAuth, async (req, res) => {
             const itemsSold = ref.quantity - Number(newData.quantity);
             const loss = newData.quantity * product.price
             const gain = itemsSold * product.price
-            const profit = gain - loss 
+            const revenue = gain - loss 
 
             updateData = {
                 $set: {
@@ -133,7 +143,7 @@ router.put('/name/:id', ensureAuth, async (req, res) => {
                     wasteDate: new Date(),
                     loss: loss,
                     gain: gain,
-                    profit: profit
+                    revenue: revenue,
                 },
             };
         }

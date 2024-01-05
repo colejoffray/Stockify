@@ -7,9 +7,13 @@
             <tr>
                 <th>Name</th>
                 <th>Waste Date</th>
+                <th>Price</th>
+                <th>Batch Quantity</th>
+                <th>Items Lost</th>
+                <th>Items Sold</th>    
                 <th>Loss</th>
                 <th>Gain</th>
-                <th>Total Profit</th>
+                <th>Total Revenue</th>
                 <th></th>
             </tr>
         </thead>
@@ -17,34 +21,41 @@
             {{#each waste}}
             <tr>
                 <td>{{product}}</a></td>
-                <td>{{wasteDate}}</td>
-                {{#if isLiquid}}
+                <td>{{formatDate wasteDate 'MMMM Do'}}</td>
+                {{#if quartsMade}}
                     <td>
                         <span class="dash-status">${{pricePerQuart}}.00 (Per Pint)<br>${{pricePerPint}}.00 (Per Quart)</span>
                     </td>
-                    <td>
-                        <span class="dash-status">{{pluNumberPerQuart}} (Quart)<br>{{pluNumberPerPint}} (Pint)</span>
+                    <td class="center-align">
+                        <span class="dash-status">{{quantity}} <br> {{quartsMade}} Qts<br> {{pintsMade}} Pts</span>
                     </td>
+                    <td class="center-align"> 
+                        <span class="dash-status">{{quartsLost}} (Quart)<br>{{pintsLost}} (Pint)</span>
+                    </td>
+                    <td class="center-align"><span class="dash-status">{{quartsSold}} (Quart)<br>{{pintsSold}} (Pint)</span></td>
                 {{else}}
                     <td>
                         <span class="dash-status">${{price}}.00</span>
                     </td>
-                    <td>
-                        <span class="dash-status">{{profit}}</span>
+                    <td class="center-align">
+                        <span class="dash-status">{{quantity}}</span>
+                    </td>
+                    <td class="center-align">
+                        <span class="dash-status">{{itemsLost}}</span>
+                    </td>
+                    <td class="center-align"> 
+                        <span class="dash-status">{{itemsSold}}</span>
                     </td>
                 {{/if}}
-             <td>
-                <div class="flex">
-                    <a href="/products/edit/{{_id}}" class="btn btn-float tooltipped" data-position="top" data-tooltip="Edit Product">
-                            <i class="fas fa-edit"></i>
-                    </a>
-                    <form action="/products/{{_id}}" method="POST" id="delete-form">
-                        <input type="hidden" name="_method" value="DELETE" >
-                        <button class="btn red tooltipped" data-position="top" data-tooltip="Delete Product" type="submit"><i class="fas fa-trash"></i></button>
-                    </form>
-                </div>
-             </td>
-                
+                <td>
+                    <span class="dash-status loss">${{loss}}.00</span>
+                </td>
+                <td>
+                    <span class="dash-status gain">${{gain}}.00</span>
+                </td>
+                <td>
+                    <span class="dash-status revenue">${{revenue}}.00</span>
+                </td> 
             </tr>
             {{/each}}
         </tbody>
@@ -52,3 +63,27 @@
 {{else}}
     <p>You have not created any products yet.</p>
 {{/if}}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const loss = document.getElementsByClassName('loss');
+        const gain = document.getElementsByClassName('gain');
+        const revenue = document.getElementsByClassName('revenue');
+
+        for(let i = 0; i < revenue.length; i++){
+            const lostEl = loss[i]
+            const gainEl = gain[i]
+            const revenueEl = revenue[i]
+            lostEl.style.color = 'red'
+            gainEl.style.color = 'green'
+            const num = revenueEl.innerHTML.substring(1, revenueEl.innerHTML.length - 3)
+            console.log(num)
+            if(+num < 0){
+                revenueEl.style.color = 'red'
+            }else if(+num > 0){
+                revenueEl.style.color = 'green'
+            }
+        }
+        
+    })
+</script>

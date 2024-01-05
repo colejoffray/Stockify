@@ -34,7 +34,7 @@
 
                         <form action="/batch/{{_id}}" method="POST" id="delete-form" class="inline-form tooltipped" data-position="top" data-tooltip="Delete Batch">
                             <input type="hidden" name="_method" value="DELETE" >
-                            <button class="btn btn-float btn-small red" type="submit"><i class="fa-solid fa-x"></i></button>
+                            <button class="btn btn-float btn-small red tooltipped" type="submit" data-position="top" data-tooltip="Delete a Batch"><i class="fa-solid fa-x"></i></button>
                         </form>
 
                         <form action="/inventory/add/{{_id}}" method="POST" id="add-form" class="inline-form tooltipped" data-position="top" data-tooltip="Add to inventory">
@@ -83,7 +83,7 @@
                 <td>{{quantity}}</td>
                 {{/hasQuartsOrPints}}
                 <td>
-                    <a class="waves-effect waves-light btn modal-trigger" href="#modal1" data-id="{{_id}}"><i class="fa-solid fa-trash"></i></a>
+                    <a class="waves-effect waves-light btn modal-trigger tooltipped red" data-position="top" data-tooltip="Add to waste log" href="#modal1" data-id="{{_id}}"><i class="fa-solid fa-trash"></i></a>
                     <a href="/inventory/{{_id}}" class="btn btn-float yellow tooltipped" data-position="top" data-tooltip="Add a Relabeled Date"><i class="fa-solid fa-calendar-days"></i></a>     
 
                 </td>

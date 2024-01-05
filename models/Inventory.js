@@ -48,10 +48,22 @@ const inventorySchema = new mongoose.Schema({
     quartsSold: {
         type: Number,
     },
-    profit: {
+    loss: {
+        type: Number,
+    },
+    gain: {
+        type: Number,
+    },
+    revenue: {
         type: Number,
     },
     price: {
+        type: Number,
+    },
+    pricePerPint: {
+        type: Number,
+    },
+    pricePerQuart: {
         type: Number,
     },
     relabeled: {

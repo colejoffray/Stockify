@@ -6,11 +6,17 @@
         })
 
       document.addEventListener('DOMContentLoaded', function() {
-        var elems = document.querySelectorAll('.modal');
-        var instances = M.Modal.init(elems);
+        let elems = document.querySelectorAll('.modal');
+        let instances = M.Modal.init(elems);
     });
 
     let instances = M.Modal.init(document.querySelectorAll('.modal'));
+
+    //tooltip initilization 
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.tooltipped');
+        var instances = M.Tooltip.init(elems);
+      });
 
     // Event listener for modal trigger
     document.querySelectorAll('.modal-trigger').forEach(function(el) {
