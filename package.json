@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cross-env NODE_ENV=development nodemon app",
     "prod": "cross-env NODE_ENV=production nodemon app",
-    "start": "node app.js"
+    "start": "cross-env NODE_ENV=production node app.js"
   },
   "author": "",
   "license": "ISC",

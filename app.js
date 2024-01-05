@@ -97,7 +97,7 @@ const PORT = process.env.PORT || 5000
 
 connectDB().then(() => {
     app.listen( PORT, () => {
-        console.log(`App running on PORT: ${process.env.PORT} in ${process.env.NODE_ENV} mode`);
+        console.log(`App running on PORT: ${PORT} in ${process.env.NODE_ENV} mode`);
     })
 })
 
