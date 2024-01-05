@@ -96,7 +96,7 @@ app.use('/waste', require('./routes/waste'))
 const PORT = process.env.PORT || 5000
 
 connectDB().then(() => {
-    app.listen(PORT, () => {
+    app.listen( PORT, () => {
         console.log(`App running on PORT: ${process.env.PORT} in ${process.env.NODE_ENV} mode`);
     })
 })
