@@ -87,9 +87,10 @@ router.get('/name/:id', ensureAuth, async (req, res) => {
 router.put('/name/:id', ensureAuth, async (req, res) => {
     try{
         const newData = req.body;
+        const id = req.user.id
 
-        const product = await Product.findOne({ productName: newData.wasteName });
-        const ref = await Inventory.findOne({ _id: req.params.id})
+        const product = await Product.findOne({ productName: newData.wasteName, user: id });
+        const ref = await Inventory.findOne({ _id: req.params.id, user: id})
 
         console.log(ref)
 

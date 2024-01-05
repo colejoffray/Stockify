@@ -9,7 +9,7 @@ const Inventory = require('../models/Inventory')
 // GET /waste
 router.get('/', ensureAuth, async (req, res) => {
     try{
-        const waste = await Inventory.find({isWaste: true}).lean()
+        const waste = await Inventory.find({isWaste: true, user: req.user.id}).lean()
         res.render('waste/log', {
             layout: 'plain',
             waste
