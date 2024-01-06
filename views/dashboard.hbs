@@ -70,8 +70,8 @@
             {{#each inventory}}
             <tr>
                 <td><a href="batches/{{_id}}">{{product}}</a></td>
-                <td>{{formatDate datePacked 'MMMM Do'}}</td>
-                <td>{{formatDate dateInCase 'MMMM Do'}}</td>
+                <td data-datePacked="{{datePacked}}">{{formatDate datePacked 'MMMM Do'}}</td>
+                <td data-dateInCase="{{dateInCase}}">{{formatDate dateInCase 'MMMM Do'}}</td>
                 {{#if relabeled}}
                 <td>{{formatDate relabeled 'MMMM Do'}}</td>
                 {{else}}

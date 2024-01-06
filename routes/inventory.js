@@ -73,7 +73,6 @@ router.put('/:id', ensureAuth, async (req,res) => {
 router.get('/name/:id', ensureAuth, async (req, res) => {
     try{
         const inv = await Inventory.findById(req.params.id).lean()
-        console.log(inv);
         res.json(inv)
     }catch(err){
         console.error(err)
