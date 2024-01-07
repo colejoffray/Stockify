@@ -66,16 +66,16 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="inventory">
             {{#each inventory}}
             <tr>
                 <td><a href="batches/{{_id}}">{{product}}</a></td>
-                <td data-datePacked="{{datePacked}}">{{formatDate datePacked 'MMMM Do'}}</td>
-                <td data-dateInCase="{{dateInCase}}">{{formatDate dateInCase 'MMMM Do'}}</td>
+                <td data-date="{{datePacked}}" class="datePacked">{{formatDate datePacked 'MMMM Do'}}</td>
+                <td data-date="{{dateInCase}}" class="dateInCase">{{formatDate dateInCase 'MMMM Do'}}</td>
                 {{#if relabeled}}
-                <td>{{formatDate relabeled 'MMMM Do'}}</td>
+                <td data-date="{{relabeled}}" class="dateRelabeled">{{formatDate relabeled 'MMMM Do'}}</td>
                 {{else}}
-                <td>Not relabeled yet</td>
+                <td class="notRelabeled">Not relabeled yet</td>
                 {{/if}}
                 {{#hasQuartsOrPints this}}
                 <td>{{quantity}} <br>Qts: {{quartsMade}}<br>Pts:{{pintsMade}}</td>
@@ -119,3 +119,42 @@
 {{else}}
     <p>You have no inventory displayed yet.</p>
 {{/if}}
+
+
+<script>
+   document.addEventListener('DOMContentLoaded', function () {
+    // Get the current date
+    const currentDate = new Date();
+
+    // Get all rows in the table
+    const rows = document.querySelectorAll('tbody tr');
+
+    // Iterate over each row
+    rows.forEach(function (row) {
+      // Get date values from data attributes
+      const datePackedElem = row.querySelector('.datePacked');
+      const dateInCaseElem = row.querySelector('.dateInCase');
+      const dateRelabeledElem = row.querySelector('.dateRelabeled');
+      const notRelabeled = row.querySelector('.notRelabeled')
+
+      if (!datePackedElem || !dateInCaseElem) {
+        // Handle missing elements
+        return;
+      }
+
+      const datePacked = new Date(datePackedElem.getAttribute('data-date'));
+      const dateInCase = new Date(dateInCaseElem.getAttribute('data-date'));
+      const dateRelabeled = dateRelabeledElem ? new Date(dateRelabeledElem.getAttribute('data-date')) : null;
+
+      // Check conditions and apply highlighting
+      if (!dateRelabeled && currentDate - dateInCase > 4 * 24 * 60 * 60 * 1000) {
+        notRelabeled.classList.add('highlight-red');
+      }
+
+      if (dateRelabeled && currentDate - dateRelabeled > 4 * 24 * 60 * 60 * 1000) {
+        dateRelabeledElem.classList.add('highlight-red');
+      }
+    });
+  });
+
+</script>

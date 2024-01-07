@@ -46,4 +46,11 @@
     overflow-y: auto;
 }
 
+.highlight-red {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    border: 1px solid black;
+}
+
 

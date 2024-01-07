@@ -23,7 +23,7 @@ router.get('/dashboard', ensureAuth, async (req, res) => {
         const inventory = await Inventory.find({
             user: id,
             isWaste: false,
-        }).sort({product: 1}).lean()
+        }).sort({dateInCase: 1}).lean()
         res.render('dashboard', {
             name: req.user.firstName,
             batches,

@@ -53,16 +53,25 @@
                 <td>
                     <span class="dash-status gain">${{gain}}.00</span>
                 </td>
-                <td>
+                <td class="revenueEl"> 
                     <span class="dash-status revenue">${{revenue}}.00</span>
                 </td> 
             </tr>
             {{/each}}
         </tbody>
     </table>
+
+    <div class="divider"></div>
+
+    <div class="row">
+        <div class="col s6 offset-s6"><h5 class="center-align" id="totalRev"></h5></div>
+    </div>
 {{else}}
     <p>You have no waste yet</p>
 {{/if}}
+
+
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -77,12 +86,28 @@
             lostEl.style.color = 'red'
             gainEl.style.color = 'green'
             const num = revenueEl.innerHTML.substring(1, revenueEl.innerHTML.length - 3)
-            console.log(num)
             if(+num < 0){
                 revenueEl.style.color = 'red'
             }else if(+num > 0){
                 revenueEl.style.color = 'green'
             }
+        }
+        
+    })
+
+    document.addEventListener('DOMContentLoaded', function(){
+        const collection = document.getElementsByClassName('revenue')
+        const totalRev = document.getElementById('totalRev')
+        let total = 0
+        for(let i = 0; i < collection.length; i++){
+            let num = +collection[i].textContent.substring(1, collection[i].textContent.length - 3)
+            total += num
+        }
+        totalRev.innerHTML = `Total Revenue: ${total}`
+        if(total > 0){
+            totalRev.style.color = 'green'
+        }else {
+            totalRev.style.color = 'red'
         }
         
     })
